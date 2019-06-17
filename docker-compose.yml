@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  node:
+    build: ./ENV/node
+    restart: always
+    container_name: node 
+    working_dir: /usr/src/app/node
+    ports:
+      - 3000:3000
+    environment:
+        - PORT=3000
+    networks:
+      - essof_ap
+    command: npm start
+
+  python:
+    build: ./ENV/python
+    restart: always
+    container_name: python
+    working_dir: /usr/src/app/python
+    volumes:
+      - ./ENV/python:/usr/src/app/python
+    ports:
+      - 5000:5000
+    environment:
+        - FLASK_ENV=development
+        - FLASK_APP=app.py
+    networks:
+      - essof_ap
+    command: python3 app.py
+    
+networks:
+  essof_ap:
